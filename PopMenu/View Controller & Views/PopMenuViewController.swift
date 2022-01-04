@@ -548,7 +548,7 @@ extension PopMenuViewController {
     
     /// When the menu action gets tapped.
     @objc fileprivate func menuDidTap(_ gesture: UITapGestureRecognizer) {
-        guard let attachedView = gesture.view, let index = actions.index(where: { $0.view.isEqual(attachedView) }) else { return }
+        guard let attachedView = gesture.view, let index = actions.firstIndex(where: { $0.view.isEqual(attachedView) }) else { return }
 
         actionDidSelect(at: index)
     }
@@ -601,7 +601,7 @@ extension PopMenuViewController {
         let touchLocation = gesture.location(in: actionsView)
         // Get associated index for touch location.
         if let touchedView = actionsView.arrangedSubviews.filter({ return $0.frame.contains(touchLocation) }).first,
-            let index = actionsView.arrangedSubviews.index(of: touchedView){
+            let index = actionsView.arrangedSubviews.firstIndex(of: touchedView){
             return index
         }
         
@@ -617,9 +617,7 @@ extension PopMenuViewController {
         
         if shouldEnableHaptics {
             // Generate haptics
-            if #available(iOS 10.0, *) {
-                Haptic.impact(.medium).generate()
-            }
+            Haptic.impact(.medium).generate()
         }
         
         // Notify delegate
