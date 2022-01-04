@@ -23,7 +23,7 @@ class RootViewController: UITableViewController {
     fileprivate let examples = PopMenuExamples()
     
     // Whether or not should use manager to present menu
-    fileprivate let shouldUseManager = true
+    fileprivate let shouldUseManager = false
     
     // MARK: - View Life Cycle
     
@@ -66,8 +66,11 @@ class RootViewController: UITableViewController {
         controller.appearance.popMenuBackgroundStyle = .blurred(.dark)
         // Configure options
         controller.shouldDismissOnSelection = false
-        controller.delegate = self
-        
+       // controller.delegate = self
+        controller.didSelectItem = { i in
+            print("\(i)")
+            controller.dismiss(animated: true, completion: nil)
+        }
         controller.didDismiss = { selected in
             print("Menu dismissed: \(selected ? "selected item" : "no selection")")
         }
@@ -89,8 +92,11 @@ class RootViewController: UITableViewController {
         // Customize appearance
         manager.popMenuAppearance.popMenuFont = UIFont(name: "AvenirNext-DemiBold", size: 16)!
         manager.popMenuAppearance.popMenuBackgroundStyle = .blurred(.dark)
-        manager.popMenuShouldDismissOnSelection = false
-        manager.popMenuDelegate = self
+        manager.popMenuShouldDismissOnSelection = true
+        manager.didSelectItem = { i in
+            print("\(i)")
+        }
+        //manager.popMenuDelegate = self
         // Present menu
         manager.present(sourceView: barButtonItem)
     }

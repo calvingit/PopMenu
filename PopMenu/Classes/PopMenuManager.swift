@@ -26,6 +26,12 @@ final public class PopMenuManager: NSObject {
         }
     }
     
+    public var didSelectItem: ((Int) -> Void)? {
+        didSet {
+            popMenu?.didSelectItem = didSelectItem
+        }
+    }
+    
     /// Determines whether to dismiss menu after an action is selected.
     public var popMenuShouldDismissOnSelection: Bool = true
     

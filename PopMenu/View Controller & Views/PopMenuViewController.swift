@@ -9,7 +9,7 @@
 import UIKit
 
 /// Delegate for handling PopMenu selection.
-@objc public protocol PopMenuViewControllerDelegate: class {
+@objc public protocol PopMenuViewControllerDelegate: AnyObject {
     /// Called when an action is selected.
     @objc optional func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int)
 }
@@ -21,6 +21,7 @@ final public class PopMenuViewController: UIViewController {
     /// Delegate instance for handling callbacks.
     public weak var delegate: PopMenuViewControllerDelegate?
     
+    public var didSelectItem: ((Int) -> Void)?
     /// Appearance configuration.
     public var appearance = PopMenuAppearance()
     
@@ -622,7 +623,9 @@ extension PopMenuViewController {
         
         // Notify delegate
         delegate?.popMenuDidSelectItem?(self, at: index)
-        
+        if let didSelectItem = didSelectItem {
+            didSelectItem(index)
+        }
         // Should dismiss or not
         if shouldDismissOnSelection {
             dismiss(animated: true) {
